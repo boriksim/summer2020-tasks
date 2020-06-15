@@ -19,4 +19,4 @@ for x in range(length):
 sort(nums)
 
 for y in nums:
-   print(y)
+    print(y)

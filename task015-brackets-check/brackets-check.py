@@ -1,3 +1,5 @@
+# 2020-06-14
+# Проверка скобок
 from my_lib import Stack
 
 

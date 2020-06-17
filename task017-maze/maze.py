@@ -1,7 +1,7 @@
 # 2020-06-17
 # Лабиринт (not finished)
 import random
-
+from copy import copy, deepcopy
 
 class Maze:
     maze = []
@@ -14,7 +14,7 @@ class Maze:
         for y in range(self.height):
             self.maze.append([])
             for x in range(self.width):
-                self.maze[y].append(0 if random.randint(1, 10) < 3 else 0)
+                self.maze[y].append(1 if random.randint(1, 10) < 4 else 0)
                 # self.maze[y].append(1)
 
     def render(self):
@@ -32,7 +32,13 @@ class Maze:
             print()
         print("-" * (self.width + 2))
 
-    def find_exit(self, x, y, x_end, y_end, passed=None):
+    def print_matrix(self, matrix):
+        for line in matrix:
+            for ch in line:
+                print(ch, end="")
+            print("")
+
+    def find_exit(self, x, y, x_end, y_end, passed=None, level=0):
         print("POINT ", x, y)
         if passed is None:
             passed = []
@@ -40,7 +46,10 @@ class Maze:
                 passed.append([])
                 for x1 in range(self.width):
                     passed[y1].append(0)
-        passed[y][x] = 1
+        passed2 = deepcopy(passed)
+        passed2[y][x] = 1
+        if x == x_end and y == y_end:
+            return [[x, y]]
 
         points = [
             [x - 1, y],
@@ -49,25 +58,21 @@ class Maze:
             [x, y + 1]
         ]
         res = None
-        print('-------------//')
         for point in points:
+            print('L ', level, ' p: ', point)
+            self.print_matrix(passed2)
             if 0 <= point[0] < self.width \
                     and 0 <= point[1] < self.height \
                     and self.maze[point[1]][point[0]] != 1 \
-                    and passed[point[1]][point[0]] != 1:
+                    and passed2[point[1]][point[0]] != 1:
 
-                if point[0] == x_end and point[1] == y_end:
-                    return [point]
 
-                res1 = self.find_exit(point[0], point[1], x_end, y_end, passed)
-                print(res1)
+                res1 = self.find_exit(point[0], point[1], x_end, y_end, passed2, level+1)
                 if res1 is not None:
                     if res is None or len(res1) < len(res):
                         res = res1
-        print(res)
-        print('-------------')
         if res is not None:
-            res = [point] + res
+            res = [[x,y]] + res
         return res
 
     def render_path(self):
@@ -95,8 +100,8 @@ class Maze:
         print("-" * (self.width + 2))
 
 
-m = Maze(4, 2)
+m = Maze(10, 10)
 m.generate()
-# m.render()
+m.render()
 # print(m.find_exit(0, 0, m.width-1, m.height-1))
 m.render_path()

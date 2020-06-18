@@ -3,6 +3,7 @@
 import random
 from copy import copy, deepcopy
 
+
 class Maze:
     maze = []
 
@@ -66,13 +67,12 @@ class Maze:
                     and self.maze[point[1]][point[0]] != 1 \
                     and passed2[point[1]][point[0]] != 1:
 
-
-                res1 = self.find_exit(point[0], point[1], x_end, y_end, passed2, level+1)
+                res1 = self.find_exit(point[0], point[1], x_end, y_end, passed2, level + 1)
                 if res1 is not None:
                     if res is None or len(res1) < len(res):
                         res = res1
         if res is not None:
-            res = [[x,y]] + res
+            res = [[x, y]] + res
         return res
 
     def render_path(self):

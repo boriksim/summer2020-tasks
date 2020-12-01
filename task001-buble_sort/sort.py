@@ -2,7 +2,7 @@
 # Сортировка массива методом bubble sort
 import random
 
-length = 100
+length = 10000
 nums = []
 
 
@@ -18,5 +18,5 @@ for x in range(length):
 
 sort(nums)
 
-for y in nums:
-    print(y)
+# for y in nums:
+#     print(y)
